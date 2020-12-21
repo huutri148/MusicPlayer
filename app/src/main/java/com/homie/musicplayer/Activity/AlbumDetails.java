@@ -1,4 +1,4 @@
-package com.homie.musicplayer;
+package com.homie.musicplayer.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.homie.musicplayer.Adapter.AlbumDetailsAdapter;
+import com.homie.musicplayer.Model.MusicFiles;
+import com.homie.musicplayer.R;
 
 import java.util.ArrayList;
 

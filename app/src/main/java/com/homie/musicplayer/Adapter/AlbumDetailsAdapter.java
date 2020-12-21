@@ -1,9 +1,8 @@
-package com.homie.musicplayer;
+package com.homie.musicplayer.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaMetadataRetriever;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.homie.musicplayer.Model.MusicFiles;
+import com.homie.musicplayer.Activity.PlayerActivity;
+import com.homie.musicplayer.R;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
-
-import static com.homie.musicplayer.MainActivity.musicFiles;
 
 public class AlbumDetailsAdapter extends RecyclerView.Adapter<AlbumDetailsAdapter.ViewHolder>{
     private Context mContext;

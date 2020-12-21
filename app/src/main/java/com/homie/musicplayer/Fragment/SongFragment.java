@@ -1,4 +1,4 @@
-package com.homie.musicplayer;
+package com.homie.musicplayer.Fragment;
 
 import android.os.Bundle;
 
@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.homie.musicplayer.R;
+import com.homie.musicplayer.Adapter.SongAdapter;
+
 import static com.homie.musicplayer.MainActivity.*;
-import static com.homie.musicplayer.SongAdapter.mFiles;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,7 +23,7 @@ import static com.homie.musicplayer.SongAdapter.mFiles;
 public class SongFragment extends Fragment {
 
     RecyclerView mRecyclerView;
-    static SongAdapter mSongAdapter;
+    public static SongAdapter mSongAdapter;
     public static SongFragment newInstance(String param1, String param2) {
         SongFragment fragment = new SongFragment();
 

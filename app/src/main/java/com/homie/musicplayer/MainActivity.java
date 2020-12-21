@@ -9,10 +9,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -23,22 +21,24 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TableLayout;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
+import com.homie.musicplayer.Fragment.AlbumFragment;
+import com.homie.musicplayer.Fragment.SongFragment;
+import com.homie.musicplayer.Model.MusicFiles;
 
 import java.util.ArrayList;
 
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
+public class MainActivity extends AppCompatActivity
+        implements SearchView.OnQueryTextListener{
 
     public static final int REQUEST_CODE = 1;
     public static ArrayList<MusicFiles> musicFiles;
     public static ArrayList<MusicFiles> albums = new ArrayList<>();
-    static boolean shuffleBoolean = false, repeatBoolean = false;
+    public static boolean shuffleBoolean = false, repeatBoolean = false;
     private String MY_SORT_PREF = "SortOrder";
 
     @Override
@@ -47,9 +47,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         setContentView(R.layout.activity_main);
         initViewPager();
         permission();
-//        mRecyclerView = (RecyclerView)findViewById(R.id.tracks);
-//        mSongAdapter = new SongAdapter();
-//        mRecyclerView.setAdapter(mSongAdapter);
+
     }
 
     private void permission() {

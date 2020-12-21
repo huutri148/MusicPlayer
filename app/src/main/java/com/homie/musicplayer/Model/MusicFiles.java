@@ -1,4 +1,4 @@
-package com.homie.musicplayer;
+package com.homie.musicplayer.Model;
 
 public class MusicFiles {
     private String path;

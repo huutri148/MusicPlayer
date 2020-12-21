@@ -1,13 +1,11 @@
-package com.homie.musicplayer;
+package com.homie.musicplayer.Adapter;
 
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaMetadata;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
+import com.homie.musicplayer.Activity.PlayerActivity;
+import com.homie.musicplayer.Model.MusicFiles;
+import com.homie.musicplayer.R;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,10 +31,10 @@ import java.util.ArrayList;
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
 
     private Context mContext;
-    static ArrayList<MusicFiles> mFiles;
+    public static ArrayList<MusicFiles> mFiles;
 
 
-    SongAdapter(Context mContext, ArrayList<MusicFiles> musicFiles){
+    public SongAdapter(Context mContext, ArrayList<MusicFiles> musicFiles){
         this.mFiles = musicFiles;
         this.mContext = mContext;
     }
@@ -131,7 +132,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
         retriever.release();
         return art;
     }
-    void updateList(ArrayList<MusicFiles> musicFilesArrayList){
+    public void updateList(ArrayList<MusicFiles> musicFilesArrayList){
         mFiles = new ArrayList<>();
         mFiles.addAll(musicFilesArrayList);
         notifyDataSetChanged();
