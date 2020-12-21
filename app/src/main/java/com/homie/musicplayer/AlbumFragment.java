@@ -3,43 +3,41 @@ package com.homie.musicplayer;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AlbumFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class AlbumFragment extends Fragment {
+import static com.homie.musicplayer.MainActivity.albums;
+import static com.homie.musicplayer.MainActivity.musicFiles;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+public class AlbumFragment extends Fragment {
+    RecyclerView mRecyclerView;
+    AlbumAdapter mAlbumAdapter;
 
     public AlbumFragment() {
         // Required empty public constructor
     }
-
-    public static AlbumFragment newInstance(String param1, String param2) {
-        AlbumFragment fragment = new AlbumFragment();
-        Bundle args = new Bundle();
-
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_album, container, false);
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_album, container,false);
+        mRecyclerView = view.findViewById(R.id.recyclerView);
+        mRecyclerView.setHasFixedSize(true);
+
+        if(!(albums.size() < 1)){
+            mAlbumAdapter = new AlbumAdapter(getContext(), albums);
+            mRecyclerView.setAdapter(mAlbumAdapter);
+            mRecyclerView.setLayoutManager(new GridLayoutManager(getContext()
+                    ,2));
+        }
+
+        return view;
     }
 }

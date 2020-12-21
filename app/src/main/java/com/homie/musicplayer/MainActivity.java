@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private SongAdapter mSongAdapter;
     public static final int REQUEST_CODE = 1;
     public static ArrayList<MusicFiles> musicFiles;
+    public static ArrayList<MusicFiles> albums = new ArrayList<>();
     static boolean shuffleBoolean = false, repeatBoolean = false;
 
     @Override
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public static ArrayList<MusicFiles> getAllAudio(Context context){
         ArrayList<MusicFiles> tempAudioList = new ArrayList<>();
+        ArrayList<String> duplicate = new ArrayList<>();
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         String[] projection = {
                 MediaStore.Audio.Media.ALBUM,
@@ -105,6 +107,10 @@ public class MainActivity extends AppCompatActivity {
                 MusicFiles musicFiles = new MusicFiles(path, title, artist, album, duration,id);
                 Log.e("Path: " + path, "Album: " + album);
                 tempAudioList.add(musicFiles);
+                if(!duplicate.contains(album)) {
+                    albums.add(musicFiles);
+                    duplicate.add(album);
+                }
             }
             cursor.close();
         }
