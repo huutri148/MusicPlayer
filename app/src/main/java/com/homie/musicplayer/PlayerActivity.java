@@ -31,6 +31,7 @@ import java.util.Random;
 
 import static com.homie.musicplayer.AlbumDetailsAdapter.musicAlbumFiles;
 import static com.homie.musicplayer.MainActivity.*;
+import static com.homie.musicplayer.SongAdapter.mFiles;
 
 public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
 
@@ -340,7 +341,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         if (sender != null && sender.equals("albumDetails")){
             listSongs = musicAlbumFiles;
         } else {
-            listSongs = musicFiles;
+            listSongs = mFiles;
         }
         if(listSongs != null){
             playPauseBtn.setImageResource(R.drawable.ic_baseline_pause);
