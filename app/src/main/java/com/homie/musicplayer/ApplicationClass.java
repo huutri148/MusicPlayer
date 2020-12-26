@@ -27,7 +27,9 @@ public class ApplicationClass extends Application {
             NotificationChannel channel2 =
                     new NotificationChannel(CHANNEL_ID_2
                     ,"Channel(2)", NotificationManager.IMPORTANCE_HIGH);
-            channel2.setDescription("Channel 2 Desc...");
+
+            // Change here to 2
+            channel1.setDescription("Channel 2 Desc...");
             NotificationManager notificationManager =
                     getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel1);

@@ -426,28 +426,28 @@ public class PlayerActivity extends AppCompatActivity
                 public void onGenerated(@Nullable Palette palette) {
                     Palette.Swatch swatch = palette.getDominantSwatch();
                     if (swatch!= null){
-                        ImageView gredient = findViewById(R.id.imageViewGredient);
+//                        ImageView gredient = findViewById(R.id.imageViewGredient);
                         RelativeLayout mContainer  = findViewById(R.id.mContainer);
-                        gredient.setBackgroundResource(R.drawable.gredient_bg);
+//                        gredient.setBackgroundResource(R.drawable.gredient_bg);
                         mContainer.setBackgroundResource(R.drawable.main_bg);
                         GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
                                 new int[]{swatch.getRgb(), 0x00000000});
                         GradientDrawable gradientDrawableBg = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
                                 new int[]{swatch.getRgb(), swatch.getRgb()});
-                        gredient.setBackground(gradientDrawable);
+//                        gredient.setBackground(gradientDrawable);
                         mContainer.setBackground(gradientDrawableBg);
                         songName.setTextColor(swatch.getTitleTextColor());
                         artistName.setTextColor(swatch.getBodyTextColor());
                     } else {
-                        ImageView gredient = findViewById(R.id.imageViewGredient);
+//                        ImageView gredient = findViewById(R.id.imageViewGredient);
                         RelativeLayout mContainer  = findViewById(R.id.mContainer);
-                        gredient.setBackgroundResource(R.drawable.gredient_bg);
+//                        gredient.setBackgroundResource(R.drawable.gredient_bg);
                         mContainer.setBackgroundResource(R.drawable.main_bg);
                         GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
                                 new int[]{0xff000000, 0x00000000});
                         GradientDrawable gradientDrawableBg = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
                                 new int[]{0xff000000, 0xff000000});
-                        gredient.setBackground(gradientDrawable);
+//                        gredient.setBackground(gradientDrawable);
                         mContainer.setBackground(gradientDrawableBg);
                         songName.setTextColor(Color.WHITE);
                         artistName.setTextColor(Color.DKGRAY);
@@ -459,9 +459,9 @@ public class PlayerActivity extends AppCompatActivity
                     .asBitmap()
                     .load(R.drawable.music)
                     .into(coverArt);
-            ImageView gredient = findViewById(R.id.imageViewGredient);
+//            ImageView gredient = findViewById(R.id.imageViewGredient);
             RelativeLayout mContainer  = findViewById(R.id.mContainer);
-            gredient.setBackgroundResource(R.drawable.gredient_bg);
+//            gredient.setBackgroundResource(R.drawable.gredient_bg);
             mContainer.setBackgroundResource(R.drawable.main_bg);
             songName.setTextColor(Color.WHITE);
             artistName.setTextColor(Color.DKGRAY);

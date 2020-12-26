@@ -10,12 +10,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorAccent"
         android:id="@+id/relative_layout">
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="170dp"
             android:id="@+id/album_image"
+            android:background="@drawable/my_shape"
             android:src="@drawable/author_image"/>
         <TextView
             android:layout_width="140dp"
@@ -23,7 +24,7 @@
             android:id="@+id/album_name"
             android:layout_alignParentBottom="true"
             android:text="Album"
-            android:textColor="#fff"
+            android:textColor="@color/fontColor"
             android:singleLine="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dp"
