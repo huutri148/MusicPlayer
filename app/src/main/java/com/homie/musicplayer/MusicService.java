@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
@@ -39,6 +40,10 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     ArrayList<MusicFiles> mMusicFiles = new ArrayList<>();
     ActionPlaying mActionPlaying;
     MediaSessionCompat mMediaSessionCompat;
+    public static final String MUSIC_FILE_LAST_PLAYED = "LAST_PLAYED";
+    public static final String MUSIC_FILE = "STORED_MUSIC";
+    public static final String ARTIST_NAME = "ARTIST NAME";
+    public static final String SONG_NAME = "SONG NAME";
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -137,6 +142,14 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     public void createMediaPlayer(int posititonInner){
         position = posititonInner;
         uri = Uri.parse(mMusicFiles.get(position).getPath());
+        SharedPreferences.Editor editor = getSharedPreferences(MUSIC_FILE_LAST_PLAYED, MODE_PRIVATE)
+                .edit();
+        editor.putString(MUSIC_FILE, uri.toString());
+        editor.apply();
+        editor.putString(SONG_NAME, mMusicFiles.get(position).getTitle() );
+        editor.apply();
+        editor.putString(ARTIST_NAME, mMusicFiles.get(position).getArtist());
+        editor.apply();
         mMediaPlayer = MediaPlayer.create(getBaseContext(), uri);
     }
     public void OnCompleted(){
