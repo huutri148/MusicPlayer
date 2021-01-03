@@ -467,7 +467,7 @@ public class PlayerActivity extends AppCompatActivity
         } else {
             Glide.with(this)
                     .asBitmap()
-                    .load(R.drawable.music)
+                    .load(R.drawable.author_image)
                     .into(coverArt);
 //            ImageView gredient = findViewById(R.id.imageViewGredient);
             RelativeLayout mContainer  = findViewById(R.id.mContainer);

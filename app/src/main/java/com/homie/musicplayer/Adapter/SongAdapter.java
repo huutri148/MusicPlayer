@@ -1,8 +1,11 @@
 package com.homie.musicplayer.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -10,6 +13,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -19,6 +25,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.github.siyamed.shapeimageview.RoundedImageView;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.Snackbar;
 import com.homie.musicplayer.Activity.PlayerActivity;
 import com.homie.musicplayer.Model.MusicFiles;
@@ -27,11 +35,15 @@ import com.homie.musicplayer.R;
 import java.io.File;
 import java.util.ArrayList;
 
+import static com.homie.musicplayer.R.*;
+
 
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
 
     private Context mContext;
     public static ArrayList<MusicFiles> mFiles;
+    private int lastPosition = -1;
+    private int currentSong = 1;
 
 
     public SongAdapter(Context mContext, ArrayList<MusicFiles> musicFiles){
@@ -41,10 +53,11 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.music_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(layout.music_item, parent, false);
         return new ViewHolder(view);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         holder.file_name.setText(mFiles.get(position).getTitle());
@@ -55,7 +68,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
                     .into(holder.album_art);
         } else {
             Glide.with(mContext)
-                    .load(R.drawable.music);
+                    .load(drawable.music);
 
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -64,19 +77,23 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
                 Intent intent = new Intent(mContext, PlayerActivity.class);
                 intent.putExtra("position", position);
                 mContext.startActivity(intent);
+                int temp = currentSong;
+                currentSong = position;
+                notifyItemChanged(temp);
+                notifyItemChanged(currentSong);
             }
         });
         holder.menuMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
                 PopupMenu popupMenu = new PopupMenu(mContext, view);
-                popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+                popupMenu.getMenuInflater().inflate(menu.popup_menu, popupMenu.getMenu());
                 popupMenu.show();
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                        switch ((menuItem.getItemId())){
-                           case R.id.delete:
+                           case id.delete:
                                //Log.e("Temp Extreme Before ->", temp + "");
                                Toast.makeText(mContext, "Delete Clicked!", Toast.LENGTH_SHORT).show();
                                //temp = new Model(list.get(position).getName(), list.get(position).getImg());
@@ -90,6 +107,25 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
             }
         });
 
+        setAnimation(holder.itemView, position);
+        if(currentSong == position){
+            holder.mCardView.setCardBackgroundColor(Color.argb(100,7,81,155));
+            holder.file_name.setTextColor(Color.argb(100,255,255,255));
+            holder.menuMore.setColorFilter(Color.argb(100,255,255,255));
+        } else {
+            holder.mCardView.setCardBackgroundColor(Color.WHITE);
+            holder.file_name.setTextColor(Color.argb(100,51,60,102));
+            holder.menuMore.setColorFilter(Color.argb(100,0,0,0));
+        }
+    }
+
+    private void setAnimation(View viewToAnim, int position){
+        // If the bound view wasn't previously displayed on screen, it's animated
+        if(position > lastPosition){
+            LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(mContext, anim.layout_animation);
+            viewToAnim.startAnimation(animation.getAnimation());
+            lastPosition = position;
+        }
     }
     private void deleteFile(int position, View view){
         Uri contentUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, Long.parseLong(mFiles.get(position).getId()));
@@ -117,13 +153,18 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView file_name;
-        ImageView album_art, menuMore;
+        ImageView menuMore;
+        RoundedImageView album_art;
+        MaterialCardView mCardView;
         public ViewHolder(@NonNull View itemView){
             super(itemView);
-            file_name = itemView.findViewById(R.id.music_file_name);
-            album_art = itemView.findViewById(R.id.music_img);
-            menuMore = itemView.findViewById(R.id.menuMore);
+            file_name = itemView.findViewById(id.music_file_name);
+            album_art = itemView.findViewById(id.music_img);
+            menuMore = itemView.findViewById(id.menuMore);
+            mCardView = itemView.findViewById(id.audio_item);
         }
+
+
     }
     private byte[] getAlbumArt(String uri){
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();

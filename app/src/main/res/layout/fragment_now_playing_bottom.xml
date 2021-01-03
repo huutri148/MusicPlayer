@@ -10,12 +10,17 @@
         android:layout_height="wrap_content"
         android:id="@+id/card_bottom"
         android:background="@color/colorAccent"
-        android:padding="5dp">
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+        android:padding="3dp">
+        <com.github.siyamed.shapeimageview.RoundedImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/author_image"
             android:id="@+id/bottom_album_art"
+            android:layout_centerVertical="true"
+            app:siRadius="6dp"
+            app:siBorderWidth="6dp"
+            app:siBorderColor="@color/colorAccent"
+            app:siSquare="true"
             android:scaleType="centerCrop"/>
         <ImageView
             android:layout_width="30dp"
@@ -40,23 +45,23 @@
             android:id="@+id/song_name_miniPlayer"
             android:text="This is Song Name"
             android:textColor="@color/fontColor"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="2dp"
             android:layout_marginStart="15dp"
             android:layout_toEndOf="@id/bottom_album_art"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:maxLines="1"
             android:layout_toStartOf="@id/play_pause_miniPlayer"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/song_artist_miniPlayer"
-            android:textColor="@color/fontColor"
+            android:textColor="@color/fontBlurColor"
             android:text="This is artist Name"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="3dp"
             android:layout_marginStart="15dp"
             android:layout_toEndOf="@id/bottom_album_art"
             android:layout_below="@id/song_name_miniPlayer"
-            android:textSize="15sp"
+            android:textSize="12sp"
             android:maxLines="1"
             android:layout_toStartOf="@id/play_pause_miniPlayer"/>
 

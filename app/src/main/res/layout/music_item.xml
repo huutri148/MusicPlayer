@@ -12,13 +12,15 @@
         android:layout_height="match_parent">
         <com.github.siyamed.shapeimageview.RoundedImageView
             android:layout_width="60dp"
-            android:layout_height="90dp"
+            android:layout_height="60dp"
+            android:layout_margin="5dp"
             android:id="@+id/music_img"
-            app:siRadius="6dp"
-            app:siBorderWidth="6dp"
             android:layout_centerVertical="true"
+            app:siRadius="6dp"
+            app:siBorderWidth="0dp"
             app:siBorderColor="@color/colorAccent"
             app:siSquare="true"
+            android:scaleType="centerCrop"
             android:src="@drawable/music" />
 
 
@@ -26,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="File Name"
+            android:maxLines="1"
             android:layout_toEndOf="@+id/music_img"
             android:layout_marginStart="10dp"
             android:layout_centerVertical="true"
@@ -37,6 +40,7 @@
             android:layout_height="60dp"
             android:id="@+id/menuMore"
             android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             android:src="@drawable/ic_baseline_more_vert"
             android:padding="10dp"/>
 

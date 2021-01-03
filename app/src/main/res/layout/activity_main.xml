@@ -12,24 +12,22 @@
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
         android:id="@+id/tab_layout"
-        app:tabIndicatorFullWidth="true"
-        app:tabIndicatorHeight="40dp"
-        app:tabIndicatorGravity="center"
         app:tabMode="scrollable"
-        app:tabTextColor="@color/fontColor"
-        app:tabIndicatorColor="@color/colorAccent"
+        app:tabTextColor="@color/fontBlurColor"
+        app:tabSelectedTextColor="@color/fontColor"
+        app:tabIndicatorHeight="1dp"
         />
     <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/viewpager"
-        android:layout_alignBottom="@id/frag_bottom_player"
-        android:layout_below="@+id/tab_layout"/>
+        android:layout_below="@+id/tab_layout"
+        android:layout_above="@id/frag_bottom_player"/>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/frag_bottom_player">
+        android:id="@+id/frag_bottom_player"
+        android:layout_alignParentBottom="true">
         <fragment
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
