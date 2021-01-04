@@ -5,7 +5,10 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -22,6 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -59,7 +64,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
 
     @SuppressLint("ResourceAsColor")
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         holder.file_name.setText(mFiles.get(position).getTitle());
         byte[] image = getAlbumArt(mFiles.get(position).getPath());
         if(image != null){
@@ -69,7 +74,6 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
         } else {
             Glide.with(mContext)
                     .load(drawable.music);
-
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,11 +113,42 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
 
         setAnimation(holder.itemView, position);
         if(currentSong == position){
-            holder.mCardView.setCardBackgroundColor(Color.argb(100,7,81,155));
-            holder.file_name.setTextColor(Color.argb(100,255,255,255));
-            holder.menuMore.setColorFilter(Color.argb(100,255,255,255));
+//            holder.mCardView.setCardBackgroundColor(Color.argb(100,7,81,155));
+//            holder.file_name.setTextColor(Color.argb(100,0,0,0));
+//            holder.menuMore.setColorFilter(Color.argb(100,255,255,255));
+            if(image != null) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+
+                Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                    @Override
+                    public void onGenerated(@Nullable Palette palette) {
+                        Palette.Swatch swatch = palette.getDominantSwatch();
+                        if (swatch != null) {
+                            GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT,
+                                    new int[]{swatch.getRgb(), swatch.getRgb()});
+                            holder.mCardView.setBackground(gradientDrawable);
+                            holder.file_name.setTextColor(swatch.getTitleTextColor());
+                            holder.menuMore.setColorFilter(Color.argb(100, 255, 255, 255));
+                        } else {
+                            GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                                    new int[]{0xFF5C88F7, 0xFF5C88F7});
+                            holder.mCardView.setBackground(gradientDrawable);
+                            holder.file_name.setTextColor(swatch.getTitleTextColor());
+                            holder.menuMore.setColorFilter(Color.argb(100, 255, 255, 255));
+                        }
+                    }
+                });
+            } else {
+                GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                        new int[]{0xFF5C88F7, 0xFF5C88F7});
+                holder.mCardView.setBackground(gradientDrawable);
+                holder.file_name.setTextColor(Color.argb(100,255,255,255));
+                holder.menuMore.setColorFilter(Color.argb(100, 255, 255, 255));
+            }
         } else {
-            holder.mCardView.setCardBackgroundColor(Color.WHITE);
+            GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                    new int[]{0xffffffff, 0xffffffff});
+            holder.mCardView.setBackground(gradientDrawable);
             holder.file_name.setTextColor(Color.argb(100,51,60,102));
             holder.menuMore.setColorFilter(Color.argb(100,0,0,0));
         }

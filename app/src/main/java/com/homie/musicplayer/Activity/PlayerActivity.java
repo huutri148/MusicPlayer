@@ -424,10 +424,7 @@ public class PlayerActivity extends AppCompatActivity
         byte[] art = retriever.getEmbeddedPicture();
         Bitmap bitmap = null;
         if(art != null){
-//            Glide.with(this)
-//                    .asBitmap()
-//                    .load(art)
-//                    .into(coverArt);
+
 
             bitmap = BitmapFactory.decodeByteArray(art, 0, art.length);
             ImageAnimation(this,coverArt,bitmap);
@@ -436,31 +433,20 @@ public class PlayerActivity extends AppCompatActivity
                 public void onGenerated(@Nullable Palette palette) {
                     Palette.Swatch swatch = palette.getDominantSwatch();
                     if (swatch!= null){
-//                        ImageView gredient = findViewById(R.id.imageViewGredient);
                         RelativeLayout mContainer  = findViewById(R.id.mContainer);
-//                        gredient.setBackgroundResource(R.drawable.gredient_bg);
                         mContainer.setBackgroundResource(R.drawable.main_bg);
                         GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
                                 new int[]{swatch.getRgb(), 0x00000000});
                         GradientDrawable gradientDrawableBg = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
                                 new int[]{swatch.getRgb(), swatch.getRgb()});
-//                        gredient.setBackground(gradientDrawable);
-//                        mContainer.setBackground(gradientDrawableBg);
-                        songName.setTextColor(swatch.getTitleTextColor());
-                        artistName.setTextColor(swatch.getBodyTextColor());
+                        songName.setTextColor(swatch.getRgb());
+                        artistName.setTextColor(swatch.getTitleTextColor());
+                        playPauseBtn.setBackgroundColor(swatch.getRgb());
+                        playPauseBtn.setBackground(gradientDrawable);
                     } else {
-//                        ImageView gredient = findViewById(R.id.imageViewGredient);
-                        RelativeLayout mContainer  = findViewById(R.id.mContainer);
-//                        gredient.setBackgroundResource(R.drawable.gredient_bg);
-                        mContainer.setBackgroundResource(R.drawable.main_bg);
-                        GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
-                                new int[]{0xff000000, 0x00000000});
-                        GradientDrawable gradientDrawableBg = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
-                                new int[]{0xff000000, 0xff000000});
-//                        gredient.setBackground(gradientDrawable);
-//                        mContainer.setBackground(gradientDrawableBg);
-                        songName.setTextColor(Color.WHITE);
-                        artistName.setTextColor(Color.DKGRAY);
+                        songName.setTextColor(Color.GRAY);
+                        artistName.setTextColor(Color.GRAY);
+                        playPauseBtn.setBackgroundColor(Color.argb(100,92,136,247));
                     }
                 }
             });
@@ -469,12 +455,12 @@ public class PlayerActivity extends AppCompatActivity
                     .asBitmap()
                     .load(R.drawable.author_image)
                     .into(coverArt);
-//            ImageView gredient = findViewById(R.id.imageViewGredient);
             RelativeLayout mContainer  = findViewById(R.id.mContainer);
-//            gredient.setBackgroundResource(R.drawable.gredient_bg);
             mContainer.setBackgroundResource(R.drawable.main_bg);
-            songName.setTextColor(Color.WHITE);
+            songName.setTextColor(Color.GRAY);
             artistName.setTextColor(Color.DKGRAY);
+            playPauseBtn.setBackgroundColor(Color.argb(100,92,136,247));
+
         }
     }
     public void ImageAnimation(final Context context, final ImageView imageView, final Bitmap bitmap){
@@ -522,8 +508,8 @@ public class PlayerActivity extends AppCompatActivity
         MyBinder myBinder = (MyBinder) iBinder;
         mMusicService = myBinder.getService();
         mMusicService.setCallBack(this);
-        Toast.makeText(this, "Connected" + mMusicService,
-                Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Connected" + mMusicService,
+//                Toast.LENGTH_SHORT).show();
         seekBar.setMax(mMusicService.getDuration() / 1000);
         metaData(uri);
         songName.setText((listSongs.get(position).getTitle()));

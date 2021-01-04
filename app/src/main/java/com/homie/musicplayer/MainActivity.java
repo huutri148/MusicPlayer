@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{WRITE_EXTERNAL_STORAGE}
             ,REQUEST_CODE);
         } else {
-            Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show();
             musicFiles = getAllAudio(this);
         }
     }
@@ -209,6 +209,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         SharedPreferences.Editor editor = getSharedPreferences(MY_SORT_PREF, MODE_PRIVATE).edit();
+//        if(item.isChecked()) item.setChecked(false);
+//        else item.setChecked(true);
+
         switch (item.getItemId()){
             case R.id.by_name:
                 editor.putString("sorting", "sortByName");
