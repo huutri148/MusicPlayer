@@ -1,5 +1,6 @@
 package com.homie.musicplayer.Activity;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -37,6 +38,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.homie.musicplayer.ActionPlaying;
+import com.homie.musicplayer.MainActivity;
 import com.homie.musicplayer.Model.MusicFiles;
 import com.homie.musicplayer.MusicService;
 import com.homie.musicplayer.MusicService.MyBinder;
@@ -66,7 +68,7 @@ public class PlayerActivity extends AppCompatActivity
     static Uri uri;
     public static ArrayList<MusicFiles> listSongs = new ArrayList<>();
     //static MediaPlayer mediaPlayer;
-    MusicService mMusicService;
+    public MusicService mMusicService;
     private Handler handler = new Handler();
     private Thread playThread, prevThread, nextThread;
 
@@ -76,7 +78,7 @@ public class PlayerActivity extends AppCompatActivity
         setFullScreen();
         setContentView(R.layout.activity_player);
         getSupportActionBar().hide();
-
+        overridePendingTransition(R.anim.sliding_down, R.anim.slide_up);
         initViews();
         getIntentMethod();
 
@@ -133,6 +135,18 @@ public class PlayerActivity extends AppCompatActivity
                 }
             }
         });
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                backBtn_click();
+            }
+        });
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+
+            }
+        };
     }
 
     private void setFullScreen() {
@@ -171,6 +185,12 @@ public class PlayerActivity extends AppCompatActivity
             }
         };
         prevThread.start();
+
+    }
+
+    private void backBtn_click() {
+        Intent intent = new Intent(this, MainActivity.class);
+        this.startActivity(intent);
 
     }
 
@@ -415,6 +435,7 @@ public class PlayerActivity extends AppCompatActivity
         repeatBtn = findViewById(R.id.id_repeat);
         playPauseBtn = findViewById(R.id.play_pause);
         seekBar = findViewById(R.id.seekBar);
+        backBtn = findViewById(R.id.back_btn);
     }
     private void metaData(Uri uri){
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();

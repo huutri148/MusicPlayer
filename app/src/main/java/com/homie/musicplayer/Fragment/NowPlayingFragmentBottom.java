@@ -1,5 +1,6 @@
 package com.homie.musicplayer.Fragment;
 
+import android.content.Intent;
 import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 
@@ -13,21 +14,27 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.homie.musicplayer.Activity.PlayerActivity;
+import com.homie.musicplayer.MainActivity;
+import com.homie.musicplayer.MusicService;
 import com.homie.musicplayer.R;
 
 import javax.xml.xpath.XPath;
+
 
 import static com.homie.musicplayer.MainActivity.ARTIST_TO_FRAG;
 import static com.homie.musicplayer.MainActivity.PATH_TO_FRAG;
 import static com.homie.musicplayer.MainActivity.SHOW_MINI_PLAYER;
 import static com.homie.musicplayer.MainActivity.SONG_NAME;
 import static com.homie.musicplayer.MainActivity.SONG_NAME_TO_FRAG;
+import static com.homie.musicplayer.MainActivity.lastSong;
 
 public class NowPlayingFragmentBottom extends Fragment {
     ImageView nextBtn, albumArt;
     TextView artistName, songName;
     FloatingActionButton playPauseBtn;
     View view;
+
 
 
     public NowPlayingFragmentBottom() {
@@ -45,17 +52,37 @@ public class NowPlayingFragmentBottom extends Fragment {
         albumArt = view.findViewById(R.id.bottom_album_art);
         nextBtn = view.findViewById(R.id.skip_next_bottom);
         playPauseBtn = view.findViewById(R.id.play_pause_miniPlayer);
-
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), PlayerActivity.class);
+                if(MainActivity.lastSong != -1)
+                {
+                    intent.putExtra("position", lastSong);
+                    v.getContext().startActivity(intent);
+                }
+            }
+        });
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
             // TODO: add action in here
             }
-        });
+        }
+        );
         playPauseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO: add action in here
+//                if (mMusicService.isPlaying()){
+//                    playPauseBtn.setImageResource(R.drawable.ic_baseline_play);
+//                    mMusicService.showNotification(R.drawable.ic_baseline_play);
+//                    mMusicService.pause();
+//                } else {
+//                    mMusicService.showNotification(R.drawable.ic_baseline_pause);
+//                    playPauseBtn.setImageResource(R.drawable.ic_baseline_pause);
+//                    mMusicService.start();
+//                }
             }
         });
         return view;

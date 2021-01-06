@@ -47,12 +47,13 @@ public class MainActivity extends AppCompatActivity
     public static final String MUSIC_FILE = "STORED_MUSIC";
     public static final String ARTIST_NAME = "ARTIST NAME";
     public static final String SONG_NAME = "SONG NAME";
+    public static final String LAST_SONG = "LAST_SONG";
 
     public static boolean SHOW_MINI_PLAYER = false;
     public static String PATH_TO_FRAG = null;
     public static String ARTIST_TO_FRAG = null;
     public static String SONG_NAME_TO_FRAG = null;
-
+    public static int lastSong = 0;
    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -239,16 +240,19 @@ public class MainActivity extends AppCompatActivity
         String path = preferences.getString(MUSIC_FILE, null);
         String artist = preferences.getString(ARTIST_NAME, null);
         String songName = preferences.getString(SONG_NAME, null);
+        int _lastSong = preferences.getInt(LAST_SONG, 0);
         if (path != null){
             SHOW_MINI_PLAYER = true;
             PATH_TO_FRAG = path;
             ARTIST_TO_FRAG = artist;
             SONG_NAME_TO_FRAG = songName;
+            lastSong = _lastSong;
         } else {
             SHOW_MINI_PLAYER = false;
             PATH_TO_FRAG = null;
             ARTIST_TO_FRAG = null;
             SONG_NAME_TO_FRAG = null;
+            lastSong = -1;
         }
     }
 }

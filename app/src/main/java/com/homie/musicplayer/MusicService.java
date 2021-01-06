@@ -31,12 +31,13 @@ import static com.homie.musicplayer.ApplicationClass.ACTION_NEXT;
 import static com.homie.musicplayer.ApplicationClass.ACTION_PLAY;
 import static com.homie.musicplayer.ApplicationClass.ACTION_PREVIOUS;
 import static com.homie.musicplayer.ApplicationClass.CHANNEL_ID_2;
+import static com.homie.musicplayer.MainActivity.LAST_SONG;
 
 public class MusicService extends Service implements MediaPlayer.OnCompletionListener {
     IBinder mIBinder = new MyBinder();
     MediaPlayer mMediaPlayer;
     Uri uri;
-    int position = -1;
+    public static int position = -1;
     ArrayList<MusicFiles> mMusicFiles = new ArrayList<>();
     ActionPlaying mActionPlaying;
     MediaSessionCompat mMediaSessionCompat;
@@ -149,6 +150,8 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
         editor.putString(SONG_NAME, mMusicFiles.get(position).getTitle() );
         editor.apply();
         editor.putString(ARTIST_NAME, mMusicFiles.get(position).getArtist());
+        editor.apply();
+        editor.putInt(LAST_SONG, position);
         editor.apply();
         mMediaPlayer = MediaPlayer.create(getBaseContext(), uri);
     }

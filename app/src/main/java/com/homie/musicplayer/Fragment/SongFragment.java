@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.homie.musicplayer.MusicService;
 import com.homie.musicplayer.R;
 import com.homie.musicplayer.Adapter.SongAdapter;
 
@@ -49,6 +50,16 @@ public class SongFragment extends Fragment {
             mRecyclerView.setAdapter(mSongAdapter);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()
             , RecyclerView.VERTICAL, false));
+            if (MusicService.position != -1)
+            {
+                if(MusicService.position <= 7)
+                    if(MusicService.position > 3)
+                    mRecyclerView.scrollToPosition(MusicService.position % 4);
+                    else{
+                        }
+                else
+                    mRecyclerView.scrollToPosition(MusicService.position - 4);
+            }
         }
 
         return view;

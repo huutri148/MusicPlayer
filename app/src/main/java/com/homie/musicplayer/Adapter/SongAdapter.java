@@ -35,6 +35,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.Snackbar;
 import com.homie.musicplayer.Activity.PlayerActivity;
 import com.homie.musicplayer.Model.MusicFiles;
+import com.homie.musicplayer.MusicService;
 import com.homie.musicplayer.R;
 
 import java.io.File;
@@ -54,6 +55,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
     public SongAdapter(Context mContext, ArrayList<MusicFiles> musicFiles){
         this.mFiles = musicFiles;
         this.mContext = mContext;
+        currentSong = MusicService.position;
     }
     @NonNull
     @Override
@@ -61,6 +63,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
         View view = LayoutInflater.from(mContext).inflate(layout.music_item, parent, false);
         return new ViewHolder(view);
     }
+
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -161,6 +164,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
             viewToAnim.startAnimation(animation.getAnimation());
             lastPosition = position;
         }
+
     }
     private void deleteFile(int position, View view){
         Uri contentUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, Long.parseLong(mFiles.get(position).getId()));
@@ -181,6 +185,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
         }
 
     }
+
     @Override
     public int getItemCount() {
         return mFiles.size();
@@ -213,4 +218,5 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
         mFiles.addAll(musicFilesArrayList);
         notifyDataSetChanged();
     }
+
 }
