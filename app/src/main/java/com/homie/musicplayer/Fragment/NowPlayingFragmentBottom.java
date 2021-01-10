@@ -1,11 +1,15 @@
 package com.homie.musicplayer.Fragment;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.media.MediaMetadataRetriever;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +18,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.homie.musicplayer.ActionPlaying;
 import com.homie.musicplayer.Activity.PlayerActivity;
 import com.homie.musicplayer.MainActivity;
 import com.homie.musicplayer.MusicService;
@@ -29,10 +34,12 @@ import static com.homie.musicplayer.MainActivity.SONG_NAME;
 import static com.homie.musicplayer.MainActivity.SONG_NAME_TO_FRAG;
 import static com.homie.musicplayer.MainActivity.lastSong;
 
-public class NowPlayingFragmentBottom extends Fragment {
+public class NowPlayingFragmentBottom extends Fragment implements ServiceConnection, ActionPlaying {
     ImageView nextBtn, albumArt;
     TextView artistName, songName;
     FloatingActionButton playPauseBtn;
+    MusicService mMusicService;
+    static Uri uri;
     View view;
 
 
@@ -52,6 +59,12 @@ public class NowPlayingFragmentBottom extends Fragment {
         albumArt = view.findViewById(R.id.bottom_album_art);
         nextBtn = view.findViewById(R.id.skip_next_bottom);
         playPauseBtn = view.findViewById(R.id.play_pause_miniPlayer);
+
+//        Intent intent = new Intent(this.getContext(), MusicService.class );
+//        intent.putExtra("servicePosition", lastSong);
+//        this.getContext().startService(intent);
+
+
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,6 +80,7 @@ public class NowPlayingFragmentBottom extends Fragment {
             @Override
             public void onClick(View view) {
             // TODO: add action in here
+
             }
         }
         );
@@ -74,19 +88,13 @@ public class NowPlayingFragmentBottom extends Fragment {
             @Override
             public void onClick(View view) {
                 // TODO: add action in here
-//                if (mMusicService.isPlaying()){
-//                    playPauseBtn.setImageResource(R.drawable.ic_baseline_play);
-//                    mMusicService.showNotification(R.drawable.ic_baseline_play);
-//                    mMusicService.pause();
-//                } else {
-//                    mMusicService.showNotification(R.drawable.ic_baseline_pause);
-//                    playPauseBtn.setImageResource(R.drawable.ic_baseline_pause);
-//                    mMusicService.start();
-//                }
+                playPauseBtnClick();
+
             }
         });
         return view;
     }
+
     private byte[] getAlbumArt(String uri){
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         retriever.setDataSource(uri);
@@ -113,6 +121,43 @@ public class NowPlayingFragmentBottom extends Fragment {
                 artistName.setText(ARTIST_TO_FRAG);
 
             }
+        }
+    }
+
+    @Override
+    public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+        MusicService.MyBinder myBinder = (MusicService.MyBinder) iBinder;
+        mMusicService = myBinder.getService();
+        mMusicService.setCallBack(this);
+        mMusicService.OnCompleted();
+        mMusicService.showNotification(R.drawable.ic_baseline_pause);
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName componentName) {
+        mMusicService = null;
+    }
+
+    @Override
+    public void nextBtnClicked() {
+
+    }
+
+    @Override
+    public void prevBtnClicked() {
+
+    }
+
+    @Override
+    public void playPauseBtnClick() {
+        if (mMusicService.isPlaying()){
+            playPauseBtn.setImageResource(R.drawable.ic_baseline_play);
+            mMusicService.showNotification(R.drawable.ic_baseline_play);
+            mMusicService.pause();
+        } else {
+            mMusicService.showNotification(R.drawable.ic_baseline_pause);
+            playPauseBtn.setImageResource(R.drawable.ic_baseline_pause);
+            mMusicService.start();
         }
     }
 }
