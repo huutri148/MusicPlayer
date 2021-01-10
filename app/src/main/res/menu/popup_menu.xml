@@ -4,5 +4,7 @@
     <item
         android:title="Delete"
         android:id="@+id/delete"
-        app:showAsAction="never"/>
+        android:icon="@drawable/ic_baseline_delete_24"
+        app:showAsAction="ifRoom"/>
+
 </menu>

@@ -216,7 +216,6 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
 
         // Service is still killed by system
         // after app is destroyed
-        // Todo: Fix it
         startForeground(1,notification);
 
     }
