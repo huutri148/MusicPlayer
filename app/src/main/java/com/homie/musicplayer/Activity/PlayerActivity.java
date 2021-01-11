@@ -5,7 +5,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 import androidx.core.app.NotificationCompat;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.palette.graphics.Palette;
+import androidx.viewpager.widget.ViewPager;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -45,6 +47,7 @@ import com.homie.musicplayer.MusicService;
 import com.homie.musicplayer.MusicService.MyBinder;
 import com.homie.musicplayer.NotificationReceiver;
 import com.homie.musicplayer.R;
+import com.homie.musicplayer.ViewPagerSongArtAdapter;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -62,7 +65,7 @@ public class PlayerActivity extends AppCompatActivity
         implements ActionPlaying, ServiceConnection {
 
     TextView songName, artistName, durationPlayed, durationTotal;
-    ImageView coverArt, nextBtn,prevBtn, backBtn, shuffleBtn, repeatBtn;
+    ImageView  nextBtn,prevBtn, backBtn, shuffleBtn, repeatBtn;
     FloatingActionButton playPauseBtn;
     SeekBar seekBar;
     int position = -1;
@@ -71,6 +74,7 @@ public class PlayerActivity extends AppCompatActivity
     //static MediaPlayer mediaPlayer;
     public MusicService mMusicService;
     private Handler handler = new Handler();
+    ViewPager mViewPager;
     private Thread playThread, prevThread, nextThread;
 
     @Override
@@ -82,7 +86,36 @@ public class PlayerActivity extends AppCompatActivity
         overridePendingTransition(R.anim.sliding_down, R.anim.slide_up);
         initViews();
         getIntentMethod();
+        ViewPagerSongArtAdapter viewPagerSongArtAdapter = new ViewPagerSongArtAdapter(getSupportFragmentManager(),
+                FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,
+                listSongs);
 
+
+        mViewPager.setAdapter(viewPagerSongArtAdapter);
+        mViewPager.setPadding(60,0,60,0);
+        mViewPager.setClipToPadding(false);
+        mViewPager.setPageMargin(30);
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int _position) {
+                if(_position -1 == position)
+                    nextBtnClicked();
+                else if (_position + 1 == position){
+                    prevBtnClicked();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -426,7 +459,8 @@ public class PlayerActivity extends AppCompatActivity
         artistName = findViewById(R.id.song_artist);
         durationPlayed = findViewById(R.id.durationPlayed);
         durationTotal = findViewById(R.id.durationTotal);
-        coverArt = findViewById(R.id.cover_art);
+//        coverArt = findViewById(R.id.cover_art);
+        mViewPager = findViewById(R.id.cover_art_viewpager);
         nextBtn = findViewById(R.id.id_next);
         prevBtn = findViewById(R.id.id_prev);
         backBtn = findViewById(R.id.back_btn);
@@ -442,46 +476,46 @@ public class PlayerActivity extends AppCompatActivity
         int durationTotal = Integer.parseInt(listSongs.get(position).getDuration()) /1000;
         this.durationTotal.setText(formattedTime(durationTotal));
         byte[] art = retriever.getEmbeddedPicture();
-        Bitmap bitmap = null;
-        if(art != null){
-
-
-            bitmap = BitmapFactory.decodeByteArray(art, 0, art.length);
-            ImageAnimation(this,coverArt,bitmap);
-            Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-                @Override
-                public void onGenerated(@Nullable Palette palette) {
-                    Palette.Swatch swatch = palette.getDominantSwatch();
-                    if (swatch!= null){
-                        RelativeLayout mContainer  = findViewById(R.id.mContainer);
-                        mContainer.setBackgroundResource(R.drawable.main_bg);
-                        GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
-                                new int[]{swatch.getRgb(), 0x00000000});
-                        GradientDrawable gradientDrawableBg = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
-                                new int[]{swatch.getRgb(), swatch.getRgb()});
-                        songName.setTextColor(swatch.getRgb());
-                        artistName.setTextColor(swatch.getTitleTextColor());
-                        playPauseBtn.setBackgroundColor(swatch.getRgb());
-                        playPauseBtn.setBackground(gradientDrawable);
-                    } else {
-                        songName.setTextColor(Color.GRAY);
-                        artistName.setTextColor(Color.GRAY);
-                        playPauseBtn.setBackgroundColor(Color.argb(100,92,136,247));
-                    }
-                }
-            });
-        } else {
-            Glide.with(this)
-                    .asBitmap()
-                    .load(R.drawable.author_image)
-                    .into(coverArt);
-            RelativeLayout mContainer  = findViewById(R.id.mContainer);
-            mContainer.setBackgroundResource(R.drawable.main_bg);
-            songName.setTextColor(Color.GRAY);
-            artistName.setTextColor(Color.DKGRAY);
-            playPauseBtn.setBackgroundColor(Color.argb(100,92,136,247));
-
-        }
+//        Bitmap bitmap = null;
+//        if(art != null){
+//
+//
+//            bitmap = BitmapFactory.decodeByteArray(art, 0, art.length);
+//            ImageAnimation(this,coverArt,bitmap);
+//            Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+//                @Override
+//                public void onGenerated(@Nullable Palette palette) {
+//                    Palette.Swatch swatch = palette.getDominantSwatch();
+//                    if (swatch!= null){
+//                        RelativeLayout mContainer  = findViewById(R.id.mContainer);
+//                        mContainer.setBackgroundResource(R.drawable.main_bg);
+//                        GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
+//                                new int[]{swatch.getRgb(), 0x00000000});
+//                        GradientDrawable gradientDrawableBg = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
+//                                new int[]{swatch.getRgb(), swatch.getRgb()});
+//                        songName.setTextColor(swatch.getRgb());
+//                        artistName.setTextColor(swatch.getTitleTextColor());
+//                        playPauseBtn.setBackgroundColor(swatch.getRgb());
+//                        playPauseBtn.setBackground(gradientDrawable);
+//                    } else {
+//                        songName.setTextColor(Color.GRAY);
+//                        artistName.setTextColor(Color.GRAY);
+//                        playPauseBtn.setBackgroundColor(Color.argb(100,92,136,247));
+//                    }
+//                }
+//            });
+//        } else {
+//            Glide.with(this)
+//                    .asBitmap()
+//                    .load(R.drawable.author_image)
+//                    .into(coverArt);
+//            RelativeLayout mContainer  = findViewById(R.id.mContainer);
+//            mContainer.setBackgroundResource(R.drawable.main_bg);
+//            songName.setTextColor(Color.GRAY);
+//            artistName.setTextColor(Color.DKGRAY);
+//            playPauseBtn.setBackgroundColor(Color.argb(100,92,136,247));
+//
+//        }
     }
     public void ImageAnimation(final Context context, final ImageView imageView, final Bitmap bitmap){
         Animation animOut = AnimationUtils.loadAnimation(context, android.R.anim.fade_out);

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".SongArtFragment">
+    <com.github.siyamed.shapeimageview.RoundedImageView
+        android:id="@+id/cover_art"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:siRadius="6dp"
+        app:siBorderWidth="6dp"
+        android:accessibilityHeading="true"
+        app:siBorderColor="@color/colorAccent"
+        app:siSquare="true"
+        android:src="@drawable/no_music_tianyi" />
+</RelativeLayout>
