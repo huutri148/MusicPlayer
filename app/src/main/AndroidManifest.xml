@@ -14,7 +14,8 @@
         android:name=".ApplicationClass"
         android:theme="@style/AppTheme">
         <activity android:name=".Activity.AlbumDetails"></activity>
-        <activity android:name=".Activity.PlayerActivity" />
+        <activity android:name=".Activity.PlayerActivity"
+          android:parentActivityName=".MainActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -3,6 +3,7 @@ package com.homie.musicplayer.Activity;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 import androidx.core.app.NotificationCompat;
 import androidx.palette.graphics.Palette;
 
@@ -189,9 +190,7 @@ public class PlayerActivity extends AppCompatActivity
     }
 
     private void backBtn_click() {
-        Intent intent = new Intent(this, MainActivity.class);
-        this.startActivity(intent);
-
+        NavUtils.navigateUpFromSameTask(this);
     }
 
     public void prevBtnClicked() {
