@@ -87,7 +87,7 @@ public class PlayerActivity extends AppCompatActivity
         initViews();
         getIntentMethod();
         ViewPagerSongArtAdapter viewPagerSongArtAdapter = new ViewPagerSongArtAdapter(getSupportFragmentManager(),
-                FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,
+                FragmentStatePagerAdapter.POSITION_NONE,
                 listSongs);
 
 
