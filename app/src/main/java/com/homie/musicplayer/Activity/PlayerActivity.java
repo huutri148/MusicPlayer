@@ -400,7 +400,7 @@ public class PlayerActivity extends AppCompatActivity
 
     public void playPauseBtnClick() {
         if (mMusicService.isPlaying()){
-            playPauseBtn.setImageResource(R.drawable.ic_baseline_pause_white_24);
+            playPauseBtn.setImageResource(R.drawable.ic_baseline_play_white_24);
             mMusicService.showNotification(R.drawable.ic_baseline_play);
             mMusicService.pause();
             seekBar.setMax(mMusicService.getDuration() / 1000);
